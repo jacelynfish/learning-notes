@@ -4,7 +4,7 @@
 
 building route information in these following steps:
 
-1. Each router collect s the route information from all other routers in the network or within a **defined area of network**. This is achieved by exchanging **link-state advertisements(LSAs)** .
+1. Each router collects the route information from all other routers in the network or within a **defined area of network**. This is achieved by exchanging **link-state advertisements(LSAs)** .
 2. Once all information is collected, each router constructs a **topological database** with itself as the root of this topological tree.
 3. Each router uses the SPF algs to calculate the shortest route to each network and stores the route information in the routing table.
 
@@ -59,7 +59,7 @@ Non-backbone area: also called regular area
 
 1. Establish neighbor adjacencies
 
-   >  send Hello packets to directly connected networks to build adjacency database.
+   >  send **Hello packets** to **directly connected** networks to build adjacency database.
 
 2. Elect DR and BDR
 

@@ -26,7 +26,7 @@ Router(config)#ipv6 unicast-routing
 
 #### Network types
 
-**connected network**: A router for a connected network is added automatically when a router interface is configure with an IP address and subnet mask of this network. This interface becomes part of that network.
+**connected network**: A route for a connected network is added automatically when a router interface is configure with an IP address and subnet mask of this network. This interface becomes part of that network.
 
 **remote network**: remote networks must be configured manually by the administrator or acquired dynamically via a routing protocol.
 
@@ -175,6 +175,6 @@ Router(config)#router routing-protocol {options}
 Router(config-router)#network network-number [wildcard-mask]
 ```
 
-`options` parameter varies with routing protocols. IGRP and EIGPR require an autonomous system number. OSPF requires a process ID. RIP does not require either.
+`options` parameter varies with routing protocols. IGRP and EIGPR require an **autonomous system number**. OSPF requires a process ID. RIP does not require either.
 
 the `netwok` command specifies a directly-connected network.

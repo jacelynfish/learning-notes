@@ -12,7 +12,7 @@ packet types:
 
 * Update packets: (Update packets are sent _reliably_)
 
-  * **New neighbor discovery**: When a router discover a new neighbor, it sent an **_unicast_** Update packet to that new neighbor to add it to its topology table
+  * **New neighbor discovery**: When a router discover a new neighbor, it sent an **_unicast_** Update packet to that new neighbor to add it to its **topology table** and **neighbor table** of course, which will generate a topological change.
   * **Topological change**: send _**multicast**_ Update packets to all neighbors.
 
 * Acknowledegment packets: send during reliable exchange. send in _**unicast**_
@@ -30,9 +30,9 @@ packet types:
 
 ###### EIGRP tables
 
-**Neighbor table **(directly connected adjancent EIGRP routers) -> 
+**Neighbor table** (directly connected adjancent EIGRP routers) -> 
 
-**Topology table **(calculate Feasible distance (FD), Reported distance (RD), Feasible successor (FS, backup successor) and successor.) ->
+**Topology table** (calculate Feasible distance (FD), Reported distance (RD), Feasible successor (FS, backup successor) and successor.) ->
 
 **IP routing table** (successor routes topology)
 
