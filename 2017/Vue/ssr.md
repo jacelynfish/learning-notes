@@ -114,8 +114,6 @@ app.$mount('#app')
 
 ##### `entry-server.js`
 
-
-
 ```javascript
 import { createApp } from './app'
 
@@ -127,3 +125,53 @@ export default context => {
 
 
 
+#### Code-Splitting
+
+Employing Webpack 2's code splitting mechanism to achieve asynchronous requests for components may have some limitations in both SSR and client-side SPA. We need to resolve all the async components upfront on the server before starting the render, because otherwise we will just get empty placeholders in the markup. On the client, we also need to do this before starting hydration. Otherwise the client will run into content mismatch.
+
+But it works perfectly at route level: `vue-router` will automatically resolve matched async components when resolving a route. **What you need to do is make sure to use `router.onReady` on both server and client. **
+
+```javascript
+// entry-server.js
+import { createApp } from './app'
+
+export default context => {
+  // since there could potentially be asynchronous route hooks or components,
+  // we will be returning a Promise so that the server can wait until
+  // everything is ready before rendering.
+  return new Promise((resolve, reject) => {
+    const { app, router } = createApp()
+
+    // set server-side router's location
+    router.push(context.url)
+
+    // wait until router has resolved possible async components and hooks
+    router.onReady(() => {
+      const matchedComponents = router.getMatchedComponents()
+      // no matched routes, reject with 404
+      if (!matchedComponents.length) {
+        reject({ code: 404 })
+      }
+
+      // the Promise should resolve to the app instance so it can be rendered
+      resolve(app)
+    }, reject)
+  })
+}
+```
+
+
+
+#### Router related APIs
+
+This is from `vue-router`
+
+- **router.getMatchedComponents(location?)**
+
+  Returns an _Array of the components_ (definition/constructor, not instances) matched by the provided location or the current route. 
+
+- **router.onReady(callback, [errorCallback])**
+
+  This method queues a callback to be called when the router has completed the _**initial** navigation_, which means it has resolved all _async enter hooks and async components that are associated with the **initial** route_.
+
+  The second argument `errorCallback` is only supported in 2.4+. It will be called when the initial route resolution runs into an error (e.g. failed to resolve an async component).
