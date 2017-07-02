@@ -1,5 +1,7 @@
 ## Server-side rendering
 
+### Universal Code
+
 #### Data Reactivity
 
 Data reactivity is disabled by default: The rendering process needs to be deterministic, which means the application state will already be resolved when reandering starts.
@@ -20,6 +22,8 @@ _**Vue instance lifecycle diagram**_
 * Lazily access browser-only APIs inside client-only lifecycle hooks
 
 
+
+### Source Code Structure
 
 #### Avoid stateful singleton
 
@@ -125,7 +129,7 @@ export default context => {
 
 
 
-#### Code-Splitting
+### Routing and Code-Splitting
 
 Employing Webpack 2's code splitting mechanism to achieve asynchronous requests for components may have some limitations in both SSR and client-side SPA. We need to resolve all the async components upfront on the server before starting the render, because otherwise we will just get empty placeholders in the markup. On the client, we also need to do this before starting hydration. Otherwise the client will run into content mismatch.
 
@@ -175,3 +179,11 @@ This is from `vue-router`
   This method queues a callback to be called when the router has completed the _**initial** navigation_, which means it has resolved all _async enter hooks and async components that are associated with the **initial** route_.
 
   The second argument `errorCallback` is only supported in 2.4+. It will be called when the initial route resolution runs into an error (e.g. failed to resolve an async component).
+
+
+
+### Data Pre-Fetching and State
+
+#### Store
+
+On the server, we can **pre-fetch** and **fill** data into the store before rendering. In addition, we will **serialize** and **inline** the state in the HTML.
